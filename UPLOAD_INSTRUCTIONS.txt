@@ -1,0 +1,82 @@
+GITHUB UPLOAD INSTRUCTIONS
+===========================
+
+You have 21 files to upload to replace everything in your hammock-ltd repository:
+
+✅ HTML FILES (10 total):
+  - index.html (main homepage)
+  - spain.html, portugal.html, israel.html, colombia.html, greece.html, uk.html, france.html, italy.html, honduras.html
+
+✅ JSON FILES (9 total):
+  - spain-photos.json, portugal-photos.json, israel-photos.json, colombia-photos.json, greece-photos.json, uk-photos.json, france-photos.json, italy-photos.json, honduras-photos.json
+
+✅ FOLDER STRUCTURE (9 folders):
+  - photos/spain/, photos/portugal/, photos/israel/, photos/colombia/, photos/greece/, photos/uk/, photos/france/, photos/italy/, photos/honduras/
+
+STEP-BY-STEP INSTRUCTIONS:
+=========================
+
+STEP 1: DELETE OLD FILES (if you want a clean start)
+------------------------------------------------------
+1. Go to github.com and open your hammock-ltd repository
+2. Click on each old file and delete it
+   - Click the file
+   - Click the trash/delete icon
+   - Commit with message "Remove old files"
+3. Or you can just upload new files and they'll overwrite old ones
+
+STEP 2: UPLOAD ALL HTML AND JSON FILES
+--------------------------------------
+1. Go to github.com/[your-username]/hammock-ltd
+2. Click "Add file" → "Upload files"
+3. Drag and drop all 19 files:
+   - index.html
+   - All 9 .html country files
+   - All 9 -photos.json files
+4. Commit with message "Add complete website with auto-loading galleries"
+
+STEP 3: CREATE PHOTO FOLDERS
+----------------------------
+1. Use the .gitkeep files that were provided separately
+2. Upload all 9 .gitkeep files to create the folder structure:
+   - photos/spain/.gitkeep
+   - photos/portugal/.gitkeep
+   - photos/israel/.gitkeep
+   - photos/colombia/.gitkeep
+   - photos/greece/.gitkeep
+   - photos/uk/.gitkeep
+   - photos/france/.gitkeep
+   - photos/italy/.gitkeep
+   - photos/honduras/.gitkeep
+3. Commit with message "Create photo folder structure"
+
+STEP 4: ADD YOUR PHOTOS
+----------------------
+1. For each country folder, upload your photos with these naming conventions:
+   - [country]-featured.jpg (for the featured/hero image)
+   - [country]-photo1.jpg, [country]-photo2.jpg, [country]-photo3.jpg, [country]-photo4.jpg
+   
+2. Example for Spain:
+   - spain-featured.jpg
+   - spain-photo1.jpg
+   - spain-photo2.jpg
+   - spain-photo3.jpg
+   - spain-photo4.jpg
+
+NOTE: The JSON files reference these photo names, so naming is important!
+If you add different photos, update the corresponding -photos.json file.
+
+HOW IT WORKS:
+=============
+1. Each country page (spain.html, portugal.html, etc.) loads the corresponding JSON file
+2. The JSON file contains paths to photos in the photos/[country]/ folder
+3. JavaScript automatically loads all photos from the JSON and displays them
+4. You can add/remove photos by just updating the JSON file - no HTML changes needed!
+
+TROUBLESHOOTING:
+================
+- Photos not showing? Check the filename matches exactly in the JSON file
+- Folders not showing? Make sure you uploaded the .gitkeep files
+- Colors/styling wrong? Check that all CSS is loading (it's inline in the HTML)
+
+That's it! Once you upload everything, your website will be live on Cloudflare Pages!
