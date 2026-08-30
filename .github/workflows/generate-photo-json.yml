@@ -21,6 +21,9 @@ jobs:
         with:
           node-version: '20'
 
+      - name: Fix image EXIF orientation
+        run: node .github/scripts/fix-image-orientation.js
+
       - name: Generate JSON files
         run: node .github/scripts/generate-json.js
 
@@ -28,10 +31,10 @@ jobs:
         run: |
           git config --local user.email "github-actions@github.com"
           git config --local user.name "github-actions"
-          git add *.json
+          git add photos/ *.json
           if git diff --cached --quiet; then
             echo "No changes to commit"
           else
-            git commit -m "Auto-generate photo gallery JSON files"
+            git commit -m "Fix image orientation and auto-generate photo gallery JSON"
             git push
           fi
