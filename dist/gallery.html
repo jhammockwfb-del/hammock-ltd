@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Travel gallery &middot; hammock.ltd</title>
+<meta name="description" content="Travel photos.">
+<link rel="stylesheet" href="/styles.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>&#127796;</text></svg>">
+</head>
+<body>
+<header class="bar">
+  <a href="/" class="back">&larr; hammock.ltd</a>
+  <h1>Travel gallery</h1>
+</header>
+
+<main>
+  <p id="status" class="status">Loading photos&hellip;</p>
+  <div id="grid" class="grid"></div>
+</main>
+
+<div id="lightbox" class="lightbox" hidden>
+  <button class="lb-close" aria-label="Close">&times;</button>
+  <button class="lb-prev" aria-label="Previous">&#8249;</button>
+  <img id="lb-img" alt="">
+  <button class="lb-next" aria-label="Next">&#8250;</button>
+  <p id="lb-caption" class="lb-caption"></p>
+</div>
+
+<footer>
+  <p>&copy; <span id="year"></span> Hammock</p>
+</footer>
+
+<script>
+document.getElementById("year").textContent = new Date().getFullYear();
+
+const grid = document.getElementById("grid");
+const status = document.getElementById("status");
+let photos = [];
+let current = 0;
+
+fetch("/photos.json", { cache: "no-store" })
+  .then(r => r.ok ? r.json() : Promise.reject(r.status))
+  .then(data => {
+    photos = data.photos || [];
+    if (!photos.length) {
+      status.textContent = "No photos yet. Add some to the photos/ folder.";
+      return;
+    }
+    status.hidden = true;
+    photos.forEach((p, i) => {
+      const fig = document.createElement("figure");
+      fig.className = "cell";
+      const img = document.createElement("img");
+      img.loading = "lazy";
+      img.src = "/photos/" + p.file;
+      img.alt = p.caption || p.file;
+      fig.appendChild(img);
+      if (p.caption) {
+        const cap = document.createElement("figcaption");
+        cap.textContent = p.caption;
+        fig.appendChild(cap);
+      }
+      fig.addEventListener("click", () => openLightbox(i));
+      grid.appendChild(fig);
+    });
+  })
+  .catch(err => { status.textContent = "Could not load photos (" + err + ")."; });
+
+const lb = document.getElementById("lightbox");
+const lbImg = document.getElementById("lb-img");
+const lbCap = document.getElementById("lb-caption");
+
+function openLightbox(i) {
+  current = i;
+  render();
+  lb.hidden = false;
+  document.body.style.overflow = "hidden";
+}
+function closeLightbox() {
+  lb.hidden = true;
+  document.body.style.overflow = "";
+}
+function render() {
+  const p = photos[current];
+  lbImg.src = "/photos/" + p.file;
+  lbImg.alt = p.caption || p.file;
+  lbCap.textContent = p.caption || "";
+}
+function step(d) {
+  current = (current + d + photos.length) % photos.length;
+  render();
+}
+
+lb.querySelector(".lb-close").addEventListener("click", closeLightbox);
+lb.querySelector(".lb-prev").addEventListener("click", e => { e.stopPropagation(); step(-1); });
+lb.querySelector(".lb-next").addEventListener("click", e => { e.stopPropagation(); step(1); });
+lb.addEventListener("click", e => { if (e.target === lb) closeLightbox(); });
+document.addEventListener("keydown", e => {
+  if (lb.hidden) return;
+  if (e.key === "Escape") closeLightbox();
+  if (e.key === "ArrowLeft") step(-1);
+  if (e.key === "ArrowRight") step(1);
+});
+</script>
+</body>
+</html>

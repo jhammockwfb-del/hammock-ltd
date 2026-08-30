@@ -1,0 +1,10 @@
+# Cache rules for Cloudflare Pages
+
+/photos/*
+  Cache-Control: public, max-age=86400
+
+/styles.css
+  Cache-Control: public, max-age=3600
+
+/*.html
+  Cache-Control: public, max-age=300
