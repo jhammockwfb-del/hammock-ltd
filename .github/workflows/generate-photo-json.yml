@@ -30,14 +30,15 @@ jobs:
       - name: Generate JSON files
         run: node .github/scripts/generate-json.js
 
-      - name: Commit and push changes
-        run: |
-          git config --local user.email "github-actions@github.com"
-          git config --local user.name "github-actions"
-          git add photos/ *.json
-          if git diff --cached --quiet; then
-            echo "No changes to commit"
-          else
-            git commit -m "Fix image orientation and auto-generate photo gallery JSON"
-            git push
-          fi
+     - name: Commit and push changes
+  run: |
+    git config --local user.email "github-actions@github.com"
+    git config --local user.name "github-actions"
+    git add photos/ *.json
+    if git diff --cached --quiet; then
+      echo "No changes to commit"
+    else
+      git commit -m "Fix image orientation and auto-generate photo gallery JSON"
+      git pull --rebase origin main
+      git push
+    fi
