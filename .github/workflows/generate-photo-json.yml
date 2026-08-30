@@ -21,7 +21,12 @@ jobs:
         with:
           node-version: '20'
 
-  
+      - name: Install sharp library
+        run: npm install sharp --save-dev
+
+      - name: Fix image orientation
+        run: node .github/scripts/fix-image-orientation.js
+
       - name: Generate JSON files
         run: node .github/scripts/generate-json.js
 
