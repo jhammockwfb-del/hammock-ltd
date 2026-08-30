@@ -1,635 +1,78 @@
-
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Jim & Jennifer Travel</title>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;600;700&display=swap">
-  <style>
-    :root {
-      /* Light mode */
-      --bg-primary: #fefefe;
-      --bg-secondary: #f9f7f4;
-      --text-primary: #2d2d2d;
-      --text-secondary: #5a5a5a;
-      --accent-primary: #dc2626;
-      --accent-secondary: #2563eb;
-      --accent-light: #fce7f3;
-      --shadow-sm: 0 2px 8px rgba(220, 38, 38, 0.1);
-      --shadow-md: 0 4px 16px rgba(220, 38, 38, 0.15);
-    }
-
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme="light"]) {
-        --bg-primary: #1a1a1a;
-        --bg-secondary: #2d2d2d;
-        --text-primary: #f5f5f5;
-        --text-secondary: #d0d0d0;
-        --accent-primary: #f87171;
-        --accent-secondary: #60a5fa;
-        --accent-light: #fce7f3;
-        --shadow-sm: 0 2px 8px rgba(248, 113, 113, 0.2);
-        --shadow-md: 0 4px 16px rgba(248, 113, 113, 0.25);
-      }
-    }
-
-    :root[data-theme="dark"] {
-      --bg-primary: #1a1a1a;
-      --bg-secondary: #2d2d2d;
-      --text-primary: #f5f5f5;
-      --text-secondary: #d0d0d0;
-      --accent-primary: #f87171;
-      --accent-secondary: #60a5fa;
-      --accent-light: #fce7f3;
-      --shadow-sm: 0 2px 8px rgba(248, 113, 113, 0.2);
-      --shadow-md: 0 4px 16px rgba(248, 113, 113, 0.25);
-    }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      background-color: var(--bg-primary);
-      color: var(--text-primary);
-      font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
-      line-height: 1.6;
-      font-size: 16px;
-    }
-
-    /* Typography */
-    h1, h2 {
-      font-family: 'Playfair Display', Georgia, serif;
-      font-weight: 700;
-      line-height: 1.2;
-      text-wrap: balance;
-    }
-
-    h1 {
-      font-size: clamp(2.5rem, 8vw, 4rem);
-      color: var(--text-primary);
-      margin-bottom: 1rem;
-    }
-
-    h2 {
-      font-size: clamp(1.75rem, 5vw, 2.75rem);
-      color: var(--text-primary);
-      margin-bottom: 1.5rem;
-    }
-
-    h3 {
-      font-size: 1.25rem;
-      color: var(--text-primary);
-      margin-bottom: 0.75rem;
-    }
-
-    p {
-      color: var(--text-secondary);
-      margin-bottom: 1rem;
-      max-width: 65ch;
-      line-height: 1.8;
-    }
-
-    a {
-      color: var(--accent-primary);
-      text-decoration: none;
-      transition: opacity 0.3s ease;
-    }
-
-    a:hover {
-      opacity: 0.8;
-    }
-
-    /* Layout */
-    .container {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 0 2rem;
-    }
-
-    /* Header/Nav */
-    header {
-      background-color: var(--bg-primary);
-      border-bottom: 2px solid var(--accent-light);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-
-    nav {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1.25rem 2rem;
-    }
-
-    .logo {
-      font-family: 'Playfair Display', Georgia, serif;
-      font-size: 1.5rem;
-      font-weight: 700;
-      background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    nav ul {
-      display: flex;
-      list-style: none;
-      gap: 2.5rem;
-    }
-
-    nav a {
-      color: var(--text-secondary);
-      font-size: 0.95rem;
-      font-weight: 600;
-      transition: color 0.3s ease;
-    }
-
-    nav a:hover {
-      color: var(--accent-primary);
-    }
-
-    /* Hero Section */
-    .hero {
-      padding: 5rem 2rem;
-      text-align: center;
-    }
-
-    .hero-content {
-      margin-bottom: 2rem;
-    }
-
-    .hero h1 {
-      margin-bottom: 1rem;
-      background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .hero p {
-      font-size: 1.2rem;
-      color: var(--text-secondary);
-      margin: 0 auto 2rem;
-    }
-
-    .cta-button {
-      display: inline-block;
-      background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
-      color: white;
-      padding: 0.9rem 2.5rem;
-      border-radius: 50px;
-      font-weight: 700;
-      font-size: 0.95rem;
-      transition: all 0.3s ease;
-      box-shadow: var(--shadow-md);
-      border: none;
-      cursor: pointer;
-    }
-
-    .cta-button:hover {
-      transform: translateY(-2px);
-      box-shadow: var(--shadow-md);
-    }
-
-    /* Featured Section */
-    .featured {
-      padding: 4rem 2rem;
-    }
-
-    .featured-image-container {
-      position: relative;
-      width: 100%;
-      max-width: 800px;
-      margin: 2rem auto;
-      aspect-ratio: 16 / 10;
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: var(--shadow-md);
-      border: 3px solid var(--accent-light);
-    }
-
-    .featured-image-container img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .featured-text {
-      max-width: 700px;
-      margin: 2rem auto;
-      padding: 2rem;
-      background-color: var(--bg-secondary);
-      border-radius: 12px;
-      border-left: 4px solid var(--accent-primary);
-    }
-
-    .featured-text h3 {
-      color: var(--accent-secondary);
-      font-size: 0.85rem;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      margin-bottom: 0.5rem;
-      font-weight: 700;
-    }
-
-    /* Stories Grid */
-    .stories {
-      padding: 5rem 2rem;
-      background-color: var(--bg-secondary);
-    }
-
-    .stories-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 2.5rem;
-      margin-top: 2rem;
-    }
-
-    .story-card {
-      background-color: var(--bg-primary);
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: var(--shadow-sm);
-      transition: all 0.3s ease;
-      cursor: pointer;
-      border: 2px solid transparent;
-    }
-
-    .story-card:hover {
-      transform: translateY(-6px);
-      border-color: var(--accent-secondary);
-    }
-
-    .story-image {
-      width: 100%;
-      aspect-ratio: 4 / 3;
-      overflow: hidden;
-      background-color: var(--accent-light);
-    }
-
-    .story-image img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 0.3s ease;
-    }
-
-    .story-card:hover .story-image img {
-      transform: scale(1.08);
-    }
-
-    .story-content {
-      padding: 1.75rem;
-    }
-
-    .story-date {
-      font-size: 0.8rem;
-      color: var(--accent-primary);
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      margin-bottom: 0.5rem;
-      font-weight: 700;
-    }
-
-    .story-content h3 {
-      margin-bottom: 0.75rem;
-      color: var(--text-primary);
-    }
-
-    .story-content p {
-      font-size: 0.95rem;
-      color: var(--text-secondary);
-      margin-bottom: 1rem;
-    }
-
-    /* Gallery Section */
-    .gallery {
-      padding: 5rem 2rem;
-    }
-
-    .gallery-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 1.5rem;
-      margin-top: 2rem;
-    }
-
-    .gallery-item {
-      position: relative;
-      aspect-ratio: 1;
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: var(--shadow-sm);
-      border: 2px solid var(--accent-light);
-    }
-
-    .gallery-item img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 0.3s ease;
-    }
-
-    .gallery-item:hover img {
-      transform: scale(1.1);
-    }
-
-    /* About Section */
-    .about {
-      padding: 5rem 2rem;
-      background-color: var(--bg-secondary);
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 4rem;
-      align-items: center;
-    }
-
-    .about-content h2 {
-      margin-bottom: 1.5rem;
-    }
-
-    .about-content p {
-      margin-bottom: 1.5rem;
-    }
-
-    .about-image {
-      width: 100%;
-      aspect-ratio: 1;
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: var(--shadow-md);
-      border: 3px solid var(--accent-light);
-    }
-
-    .about-image img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    /* Contact Section */
-    .contact {
-      padding: 5rem 2rem;
-      text-align: center;
-      background: linear-gradient(135deg, var(--accent-light) 0%, rgba(78, 205, 196, 0.1) 100%);
-    }
-
-    .contact h2 {
-      margin-bottom: 1rem;
-      background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .contact p {
-      margin: 0 auto 2rem;
-      font-size: 1rem;
-    }
-
-    .contact-links {
-      display: flex;
-      justify-content: center;
-      gap: 1.5rem;
-      flex-wrap: wrap;
-      margin-top: 2rem;
-    }
-
-    .contact-link {
-      display: inline-block;
-      padding: 0.75rem 1.75rem;
-      background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
-      color: white;
-      border-radius: 50px;
-      text-transform: uppercase;
-      font-weight: 700;
-      font-size: 0.85rem;
-      letter-spacing: 0.05em;
-      transition: all 0.3s ease;
-    }
-
-    .contact-link:hover {
-      transform: translateY(-2px);
-    }
-
-    /* Footer */
-    footer {
-      background-color: var(--bg-primary);
-      padding: 2rem;
-      text-align: center;
-      border-top: 2px solid var(--accent-light);
-      color: var(--text-secondary);
-      font-size: 0.9rem;
-    }
-
-    /* Emoji accents */
-    .emoji-accent {
-      font-size: 1.5rem;
-      margin-right: 0.5rem;
-    }
-
-    /* Responsive */
-    @media (max-width: 768px) {
-      nav ul {
-        gap: 1.5rem;
-      }
-
-      nav a {
-        font-size: 0.85rem;
-      }
-
-      .about {
-        grid-template-columns: 1fr;
-      }
-
-      .about-image {
-        order: -1;
-      }
-
-      .hero {
-        padding: 3rem 1.5rem;
-      }
-
-      .featured, .stories, .gallery, .contact {
-        padding: 3rem 1.5rem;
-      }
-
-      .gallery-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .contact-links {
-        flex-direction: column;
-      }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      * {
-        animation: none !important;
-        transition: none !important;
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jim & Jennifer Travel</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;600;700&display=swap">
+<style>
+:root {
+  /* Light mode */
+  --bg-primary: #fefefe;
+  --bg-secondary: #f9f7f4;
+  --text-primary: #2d2d2d;
+  --text-secondary: #5a5a5a;
+  --accent-primary: #dc2626;
+  --accent-secondary: #2563eb;
+  --accent-light: #fce7f3;
+  --shadow-sm: 0 2px 8px rgba(220, 38, 38, 0.1);
+  --shadow-md: 0 4px 16px rgba(220, 38, 38, 0.15);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg-primary: #1a1a1a;
+    --bg-secondary: #2d2d2d;
+    --text-primary: #f5f5f5;
+    --text-secondary: #d0d0d0;
+    --accent-primary: #f87171;
+    --accent-secondary: #60a5fa;
+    --accent-light: #fce7f3;
+    --shadow-sm: 0 2px 8px rgba(248, 113, 113, 0.2);
+    --shadow-md: 0 4px 16px rgba(248, 113, 113, 0.25);
+  }
+}
+
+:root[data-theme="dark"] {
+  --bg-primary: #1a1a1a;
+  --bg-secondary: #2d2d2d;
+  --text-primary: #f5f5f5;
+  --text-secondary: #d0d0d0;
+  --accent-primary: #f87171;
+  --accent-secondary: #60a5fa;
+  --accent-light: #fce7f3;
+  --shadow-sm: 0 2px 8px rgba(248, 113, 113, 0.2);
+  --shadow-md: 0 4px 16px rgba(248, 113, 113, 0.25);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+  line-height: 1.6;
+  font-size: 16px;
+}
+
+/* Typography */
+h1, h2, h3 {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-weight: 700;
+  line-height: 1.2;
+  text-wrap: balance;
+}
+</style>
 </head>
+
 <body>
-  <!-- Header/Navigation -->
-  <header>
-    <nav class="container">
-      <div class="logo">✈️ Jim & Jennifer</div>
-      <ul>
-        <li><a href="#featured">Featured</a></li>
-        <li><a href="#stories">Stories</a></li>
-        <li><a href="#gallery">Gallery</a></li>
-        <li><a href="#about">About</a></li>
-        <li><a href="#contact">Contact</a></li>
-      </ul>
-    </nav>
-  </header>
-
-  <!-- Hero Section -->
-  <section class="hero">
-    <div class="container">
-      <div class="hero-content">
-        <h1>Travel Stories from Around the World</h1>
-        <p>Join Jim and Jennifer as they explore new cultures, capture incredible moments, and create unforgettable memories</p>
-        <a href="#stories" class="cta-button">Explore Our Adventures →</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- Featured Section -->
-  <section class="featured" id="featured">
-    <div class="container">
-      <h2>✨ Latest Adventure</h2>
-      <div class="featured-image-container">
-        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1200' height='800'%3E%3Cdefs%3E%3ClinearGradient id='grad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%232563eb;stop-opacity:1' /%3E%3Cstop offset='100%25' style='stop-color:%23dc2626;stop-opacity:1' /%3E%3C/linearGradient%3E%3C/defs%3E%3Crect fill='url(%23grad)' width='1200' height='800'/%3E%3Ctext x='50%' y='50%' font-size='48' fill='white' text-anchor='middle' dominant-baseline='middle' font-family='Arial'%3EYour Photo Here%3C/text%3E%3C/svg%3E" alt="Featured adventure">
-      </div>
-      <div class="featured-text">
-        <h3>Recent Memory</h3>
-        <h3 style="font-size: 1.75rem; color: var(--text-primary);">Your Latest Story Title</h3>
-        <p>Add a description of your latest adventure and where this photo was taken.</p>
-        <a href="#" class="read-more">Read Full Story →</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- Stories Section -->
-  <section class="stories" id="stories">
-    <div class="container">
-      <h2>📸 Travel Stories</h2>
-      <div class="stories-grid">
-        <article class="story-card">
-          <div class="story-image">
-            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Crect fill='%23fff5cc' width='400' height='300'/%3E%3Ctext x='50%' y='50%' font-size='24' fill='%235a5a5a' text-anchor='middle' dominant-baseline='middle'%3EPhoto%3C/text%3E%3C/svg%3E" alt="Story">
-          </div>
-          <div class="story-content">
-            <div class="story-date">Date Here</div>
-            <h3>Story Title</h3>
-            <p>A brief description of your travel story goes here. Share the highlights!</p>
-            <a href="#">Read More →</a>
-          </div>
-        </article>
-
-        <article class="story-card">
-          <div class="story-image">
-            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Crect fill='%23fff5cc' width='400' height='300'/%3E%3Ctext x='50%' y='50%' font-size='24' fill='%235a5a5a' text-anchor='middle' dominant-baseline='middle'%3EPhoto%3C/text%3E%3C/svg%3E" alt="Story">
-          </div>
-          <div class="story-content">
-            <div class="story-date">Date Here</div>
-            <h3>Story Title</h3>
-            <p>A brief description of your travel story goes here. Share the highlights!</p>
-            <a href="#">Read More →</a>
-          </div>
-        </article>
-
-        <article class="story-card">
-          <div class="story-image">
-            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Crect fill='%23fff5cc' width='400' height='300'/%3E%3Ctext x='50%' y='50%' font-size='24' fill='%235a5a5a' text-anchor='middle' dominant-baseline='middle'%3EPhoto%3C/text%3E%3C/svg%3E" alt="Story">
-          </div>
-          <div class="story-content">
-            <div class="story-date">Date Here</div>
-            <h3>Story Title</h3>
-            <p>A brief description of your travel story goes here. Share the highlights!</p>
-            <a href="#">Read More →</a>
-          </div>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <!-- Gallery Section -->
-  <section class="gallery" id="gallery">
-    <div class="container">
-      <h2>🌍 Our Destinations</h2>
-      <div class="gallery-grid">
-        <a href="spain.html" class="gallery-item" style="text-decoration: none; cursor: pointer;">
-          <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Crect fill='%232563eb' width='300' height='300'/%3E%3Ctext x='50%' y='50%' font-size='32' fill='white' text-anchor='middle' dominant-baseline='middle'%3E🇪🇸 Spain%3C/text%3E%3C/svg%3E" alt="Spain">
-        </a>
-        <a href="portugal.html" class="gallery-item" style="text-decoration: none; cursor: pointer;">
-          <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Crect fill='%23dc2626' width='300' height='300'/%3E%3Ctext x='50%' y='50%' font-size='32' fill='white' text-anchor='middle' dominant-baseline='middle'%3E🇵🇹 Portugal%3C/text%3E%3C/svg%3E" alt="Portugal">
-        </a>
-        <a href="israel.html" class="gallery-item" style="text-decoration: none; cursor: pointer;">
-          <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Crect fill='%23fce7f3' width='300' height='300'/%3E%3Ctext x='50%' y='50%' font-size='32' fill='%235a5a5a' text-anchor='middle' dominant-baseline='middle'%3E🇮🇱 Israel%3C/text%3E%3C/svg%3E" alt="Israel">
-        </a>
-        <a href="colombia.html" class="gallery-item" style="text-decoration: none; cursor: pointer;">
-          <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Crect fill='%232563eb' width='300' height='300'/%3E%3Ctext x='50%' y='50%' font-size='32' fill='white' text-anchor='middle' dominant-baseline='middle'%3E🇨🇴 Colombia%3C/text%3E%3C/svg%3E" alt="Colombia">
-        </a>
-        <a href="greece.html" class="gallery-item" style="text-decoration: none; cursor: pointer;">
-          <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Crect fill='%23dc2626' width='300' height='300'/%3E%3Ctext x='50%' y='50%' font-size='32' fill='white' text-anchor='middle' dominant-baseline='middle'%3E🇬🇷 Greece%3C/text%3E%3C/svg%3E" alt="Greece">
-        </a>
-        <a href="uk.html" class="gallery-item" style="text-decoration: none; cursor: pointer;">
-          <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Crect fill='%23fce7f3' width='300' height='300'/%3E%3Ctext x='50%' y='50%' font-size='32' fill='%235a5a5a' text-anchor='middle' dominant-baseline='middle'%3E🇬🇧 UK%3C/text%3E%3C/svg%3E" alt="UK">
-        </a>
-        <a href="france.html" class="gallery-item" style="text-decoration: none; cursor: pointer;">
-          <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Crect fill='%232563eb' width='300' height='300'/%3E%3Ctext x='50%' y='50%' font-size='32' fill='white' text-anchor='middle' dominant-baseline='middle'%3E🇫🇷 France%3C/text%3E%3C/svg%3E" alt="France">
-        </a>
-        <a href="italy.html" class="gallery-item" style="text-decoration: none; cursor: pointer;">
-          <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Crect fill='%23dc2626' width='300' height='300'/%3E%3Ctext x='50%' y='50%' font-size='32' fill='white' text-anchor='middle' dominant-baseline='middle'%3E🇮🇹 Italy%3C/text%3E%3C/svg%3E" alt="Italy">
-        </a>
-        <a href="honduras.html" class="gallery-item" style="text-decoration: none; cursor: pointer;">
-          <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Crect fill='%23fce7f3' width='300' height='300'/%3E%3Ctext x='50%' y='50%' font-size='32' fill='%235a5a5a' text-anchor='middle' dominant-baseline='middle'%3E🇭🇳 Honduras%3C/text%3E%3C/svg%3E" alt="Honduras">
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- About Section -->
-  <section class="about" id="about">
-    <div class="about-content">
-      <h2>💕 About Us</h2>
-      <p>Hi! We're Jim and Jennifer. We believe life is meant to be lived, explored, and shared. For the past [X] years, we've been traveling the world, collecting stories, and making memories together.</p>
-      <p>Through our lens, you'll discover hidden gems, breathtaking landscapes, and the wonderful people who make each destination special. Join us as we continue our journey across the globe!</p>
-    </div>
-    <div class="about-image">
-      <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cdefs%3E%3ClinearGradient id='grad2' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%232563eb;stop-opacity:1' /%3E%3Cstop offset='100%25' style='stop-color:%23dc2626;stop-opacity:1' /%3E%3C/linearGradient%3E%3C/defs%3E%3Crect fill='url(%23grad2)' width='400' height='400'/%3E%3Ctext x='50%' y='50%' font-size='32' fill='white' text-anchor='middle' dominant-baseline='middle'%3EYour Photo%3C/text%3E%3C/svg%3E" alt="About">
-    </div>
-  </section>
-
-  <!-- Contact Section -->
-  <section class="contact" id="contact">
-    <div class="container">
-      <h2>Get In Touch 📧</h2>
-      <p>Have a recommendation? Want to collaborate? We'd love to hear from you!</p>
-      <div class="contact-links">
-        <a href="mailto:your.email@example.com" class="contact-link">Email Us</a>
-        <a href="https://instagram.com" class="contact-link">Instagram</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- Footer -->
-  <footer>
-    <div class="container">
-      <p>&copy; 2026 Jim & Jennifer Travel. Made with ❤️ and a passion for adventure.</p>
-    </div>
-  </footer>
+  <!-- Rest of your HTML content goes here -->
 </body>
 </html>
