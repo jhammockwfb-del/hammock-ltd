@@ -21,9 +21,7 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Fix image EXIF orientation
-        run: node .github/scripts/fix-image-orientation.js
-
+  
       - name: Generate JSON files
         run: node .github/scripts/generate-json.js
 
