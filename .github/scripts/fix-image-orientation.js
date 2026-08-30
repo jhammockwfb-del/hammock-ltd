@@ -2,59 +2,61 @@ const sharp = require('sharp');
 const fs = require('fs');
 const path = require('path');
 
-const photosDir = './photos';
-
 async function fixImageOrientation() {
+  const photosDir = './photos';
+
+  // Get all country folders
   const countries = fs.readdirSync(photosDir).filter(file => {
     const fullPath = path.join(photosDir, file);
-    return fs.statSync(fullPath).isDirectory();
+    return fs.statSync(fullPath).isDirectory() && file !== '.DS_Store';
   });
 
-  console.log(`Processing ${countries.length} country folders for EXIF orientation...`);
+  console.log(`\n📁 Processing ${countries.length} country folders for image orientation...\n`);
 
   for (const country of countries) {
     const countryPath = path.join(photosDir, country);
+
+    // Get all image files
     const files = fs.readdirSync(countryPath).filter(file => {
       const ext = path.extname(file).toLowerCase();
       return ['.jpg', '.jpeg', '.png'].includes(ext);
     });
 
-    console.log(`\n📁 Processing ${country} (${files.length} images)...`);
+    if (files.length === 0) continue;
+
+    console.log(`🔧 ${country}: processing ${files.length} images...`);
+    let fixed = 0;
 
     for (const file of files) {
       const filePath = path.join(countryPath, file);
 
       try {
-        // Read image metadata
+        // Read metadata
         const metadata = await sharp(filePath).metadata();
 
-        // Check if image needs rotation
+        // Check if orientation needs fixing
         if (metadata.orientation && metadata.orientation > 1) {
-          console.log(`  ⟳ ${file} (orientation: ${metadata.orientation})`);
-
-          // Use sharp to auto-rotate and remove EXIF
+          // Rotate and save
           await sharp(filePath)
-            .rotate() // Auto-rotates based on EXIF orientation
-            .toFile(filePath + '.tmp');
+            .rotate()
+            .toFile(filePath);
 
-          // Replace original with rotated version
-          fs.renameSync(filePath + '.tmp', filePath);
+          fixed++;
         }
-      } catch (error) {
-        console.log(`  ⚠️  ${file}: ${error.message}`);
+      } catch (err) {
+        console.log(`   ⚠️  ${file}: skipped (${err.message})`);
       }
+    }
+
+    if (fixed > 0) {
+      console.log(`   ✅ Fixed ${fixed} image${fixed === 1 ? '' : 's'}`);
     }
   }
 
-  console.log('\n✨ EXIF orientation fix complete!');
+  console.log('\n✨ Image orientation fix complete!\n');
 }
 
-// Install sharp if not present
-try {
-  require('sharp');
-} catch (e) {
-  console.log('Installing sharp...');
-  require('child_process').execSync('npm install sharp', { stdio: 'inherit' });
-}
-
-fixImageOrientation().catch(console.error);
+fixImageOrientation().catch(err => {
+  console.error('Error:', err);
+  process.exit(1);
+});
