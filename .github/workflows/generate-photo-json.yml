@@ -1,15 +1,12 @@
-name: Generate Photo Gallery JSON
+name: Fix Germany Photo Orientation
 
 on:
-  push:
-    paths:
-      - 'photos/**'
   workflow_dispatch:
 
 jobs:
-  generate-json:
-      runs-on: ubuntu-latest
-          permissions:
+  fix-germany-orientation:
+    runs-on: ubuntu-latest
+    permissions:
       contents: write
 
     steps:
@@ -20,25 +17,23 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
+          cache: npm
 
-      - name: Install sharp library
-        run: npm install sharp --save-dev
+      - name: Install locked dependencies
+        run: npm ci
 
-      - name: Fix image orientation
-        run: node .github/scripts/fix-image-orientation.js
+      - name: Fix Germany image orientation
+        run: node .github/scripts/fix-germany-orientation.js
 
-      - name: Generate JSON files
-        run: node .github/scripts/generate-json.js
-
-     - name: Commit and push changes
-  run: |
-    git config --local user.email "github-actions@github.com"
-    git config --local user.name "github-actions"
-    git add photos/ *.json
-    if git diff --cached --quiet; then
-      echo "No changes to commit"
-    else
-      git commit -m "Fix image orientation and auto-generate photo gallery JSON"
-      git pull --rebase origin main
-      git push
-    fi
+      - name: Commit corrected Germany images
+        run: |
+          git config --local user.email "github-actions@github.com"
+          git config --local user.name "github-actions"
+          git add photos/germany/
+          if git diff --cached --quiet; then
+            echo "No Germany images needed orientation correction"
+          else
+            git commit -m "Fix Germany image orientation"
+            git pull --rebase origin main
+            git push
+          fi
