@@ -8,8 +8,8 @@ on:
 
 jobs:
   generate-json:
-    runs-on: ubuntu-latest
-    permissions:
+      runs-on: ubuntu-latest
+          permissions:
       contents: write
 
     steps:
