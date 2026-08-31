@@ -3,23 +3,20 @@ const fs = require('fs');
 const path = require('path');
 
 const countryPath = path.join('.', 'photos', 'germany');
-const markerPath = path.join(countryPath, '.manual-orientation-fixed-v3');
+const markerPath = path.join(countryPath, '.manual-orientation-fixed-v4');
 
-// Final seven corrections identified in the cache-busted v2 gallery.
+// Four final 180-degree corrections confirmed by direct visual inspection.
 // Degrees are clockwise relative to the currently published files.
 const rotations = {
-  'germany_038.jpg': 270,
-  'germany_039.jpg': 270,
-  'germany_041.jpg': 270,
-  'germany_049.jpg': 90,
-  'germany_050.jpg': 270,
-  'germany_053.jpg': 270,
-  'germany_065.jpg': 90
+  'germany_038.jpg': 180,
+  'germany_039.jpg': 180,
+  'germany_041.jpg': 180,
+  'germany_050.jpg': 180
 };
 
 async function fixGermanyOrientation() {
   if (fs.existsSync(markerPath)) {
-    console.log('Germany orientation correction v3 already applied; nothing to do.');
+    console.log('Germany orientation correction v4 already applied; nothing to do.');
     return;
   }
 
@@ -36,8 +33,8 @@ async function fixGermanyOrientation() {
     console.log(`Rotated ${file} ${degrees} degrees clockwise`);
   }
 
-  fs.writeFileSync(markerPath, `Applied Germany orientation corrections v3 to ${fixed} images.\n`);
-  console.log(`Germany orientation correction v3 complete: ${fixed} fixed`);
+  fs.writeFileSync(markerPath, `Applied Germany orientation corrections v4 to ${fixed} images.\n`);
+  console.log(`Germany orientation correction v4 complete: ${fixed} fixed`);
 }
 
 fixGermanyOrientation().catch(err => {
