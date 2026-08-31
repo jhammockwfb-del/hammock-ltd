@@ -1,0 +1,39 @@
+name: Process Yellowstone Photos
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  resize-and-rename:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install locked dependencies
+        run: npm ci
+
+      - name: Resize and rename Yellowstone photos
+        run: node .github/scripts/process-yellowstone.js
+
+      - name: Commit processed Yellowstone photos
+        run: |
+          git config --local user.email "github-actions@github.com"
+          git config --local user.name "github-actions"
+          git add -A -- "photos/YellowStone NP"
+          if git diff --cached --quiet; then
+            echo "No Yellowstone photos needed processing"
+          else
+            git commit -m "Resize and rename Yellowstone photos"
+            git pull --rebase origin main
+            git push
+          fi
