@@ -15,6 +15,7 @@
     <a class="mark" href="index.html">hammock<span>.ltd</span></a>
     <nav aria-label="Main">
       <a href="#years">Places</a>
+      <a href="#game">Guessing game</a>
       <a href="genealogy.html">Family tree</a>
       <button type="button" data-slideshow>Slideshow</button>
     </nav>
@@ -27,14 +28,25 @@
         <figcaption class="hero-bar">
           <p class="hero-cap" id="heroCap">Loading a photo</p>
           <span class="hero-actions">
-            <button class="btn quiet" type="button" id="another">Show another</button>
+            <button class="btn quiet" type="button" id="another">Surprise me</button>
             <button class="btn" type="button" data-slideshow>Play slideshow</button>
           </span>
         </figcaption>
       </figure>
 
-      <p class="intro">Jim and Jennifer Hammock's photos, kept in one place for family and friends.</p>
-      <p class="intro-sub"><span id="count">Photos</span>. Pick a year, pick a place, or let the slideshow run on the TV.</p>
+      <p class="intro">Hi, we're Jim and Jennifer. Pull up a chair and look around.</p>
+      <p class="intro-sub"><span id="count">Our photos</span>. Hit "Surprise me," test yourself in the guessing game, or put the slideshow on the TV.</p>
+
+      <section class="game" id="game" aria-labelledby="gameh">
+        <div class="game-card"><img id="gImg" alt=""></div>
+        <div>
+          <h2 id="gameh">Where was this?</h2>
+          <p class="game-score" id="gScore">Pick the place. No peeking at the captions.</p>
+          <div class="choices" id="gChoices"></div>
+          <p class="game-result" id="gResult" aria-live="polite"></p>
+          <button class="btn" type="button" id="gNext" hidden>Next photo</button>
+        </div>
+      </section>
 
       <div class="years" id="years"></div>
 
