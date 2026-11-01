@@ -5,7 +5,8 @@
   const $ = (s, el = document) => el.querySelector(s);
   const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   const yearsText = y => y.join(', ');
-  const placeUrl = slug => `place.html?p=${encodeURIComponent(slug)}`;
+  // The preview copy links with #slug because its host drops query strings.
+  const placeUrl = slug => (PREVIEW ? `place.html#${slug}` : `place.html?p=${encodeURIComponent(slug)}`);
   const fullSrc = p => (PREVIEW ? p.thumb : p.src);
 
   async function loadData() {
@@ -182,7 +183,7 @@
 
   /* ---------- Place page ---------- */
   function renderPlace(data) {
-    const slug = new URLSearchParams(location.search).get('p');
+    const slug = new URLSearchParams(location.search).get('p') || location.hash.slice(1);
     const idx = data.places.findIndex(p => p.slug === slug);
     const main = $('#place');
     if (idx < 0) {
