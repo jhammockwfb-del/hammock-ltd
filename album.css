@@ -31,8 +31,20 @@ a:focus-visible, button:focus-visible { outline: 3px solid var(--amber); outline
 
 /* Header */
 .top { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; padding: 20px var(--gutter); max-width: 1240px; margin: 0 auto; flex-wrap: wrap; }
-.mark { font: 800 1.9rem/1 var(--display); letter-spacing: .01em; text-decoration: none; }
-.mark span { color: var(--amber); }
+/* Logo: a hammock slung between two posts, then the name */
+.mark { display: inline-flex; align-items: flex-end; gap: 10px; text-decoration: none; color: var(--paper); }
+.mark-icon { width: 54px; height: 36px; flex: none; overflow: visible; }
+.mark-icon path { fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.mark-icon .post { stroke: var(--paper); stroke-width: 3.4; }
+.mark-icon .rope { stroke: var(--muted); stroke-width: 1.2; }
+.mark-icon .bed { fill: var(--amber); }
+.mark-icon .stripe { stroke: var(--ground); stroke-width: 1.6; opacity: .55; }
+.mark-icon .sling { transform-origin: 32px 8px; }
+.mark-word { font: 800 2rem/.9 var(--display); letter-spacing: .01em; }
+.mark-tld { color: var(--amber); font-weight: 700; margin-left: 1px; }
+.mark:hover .sling, .mark:focus-visible .sling { animation: sway 1.6s ease-in-out 2; }
+@keyframes sway { 0%, 100% { transform: rotate(0deg); } 25% { transform: rotate(5deg); } 75% { transform: rotate(-5deg); } }
+@media (max-width: 640px) { .mark-icon { width: 42px; height: 27px; } .mark-word { font-size: 1.7rem; } }
 .top nav { display: flex; gap: 1.4rem; flex-wrap: wrap; }
 .top nav a, .top nav button { font: inherit; font-size: .98rem; color: var(--muted); text-decoration: none; background: none; border: 0; padding: 4px 0; cursor: pointer; }
 .top nav a:hover, .top nav button:hover { color: var(--paper); }
@@ -150,4 +162,4 @@ a:focus-visible, button:focus-visible { outline: 3px solid var(--amber); outline
   .v-nav span { display: none; }
   .intro { margin-top: 40px; }
 }
-@media (prefers-reduced-motion: reduce) { * { transition: none !important; } .place, .place:hover { transform: none; } }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } .mark .sling { animation: none !important; } .place, .place:hover { transform: none; } }
