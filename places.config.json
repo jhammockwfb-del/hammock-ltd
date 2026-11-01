@@ -1,16 +1,19 @@
 {
-  "_help": "One entry per photo folder. 'folder' is the name inside photos/. 'years' shows on the homepage. 'note' is optional text shown at the top of that place's page - leave it empty if you have nothing to say. 'cover' is optional; it is the file name (inside the folder) used as the homepage picture. If blank, the first photo is used. 'favorites' is an optional list of file names; if any are listed anywhere, the big photo at the top of the homepage is picked only from favorites. 'oldPage' is the old page name, kept so old links still work.",
+  "_help": "One entry per photo folder. 'folder' is the name inside photos/. 'years' shows on the homepage. 'note' is optional text shown at the top of that place's page - leave it empty if you have nothing to say. 'cover' is optional; it is the file name (inside the folder) used as the homepage picture. If blank, the first photo is used. 'favorites' is an optional list of file names; if any are listed anywhere, the big photo at the top of the homepage is picked only from favorites. 'oldPage' is the old page name, kept so old links still work. A place visited more than once gets one entry per trip (same 'name', its own folder and year).",
   "places": [
-    { "slug": "spain",       "name": "Spain",       "folder": "spain",          "years": [2026],                   "cover": "", "oldPage": "spain_2.html",
-      "note": "Taken while vacationing in 2026 with good friends. We traveled from Lisbon, Portugal, to Barcelona, Spain, visiting many places in between." },
-    { "slug": "israel",      "name": "Israel",      "folder": "israel",         "years": [2019, 2022, 2023, 2025], "cover": "", "oldPage": "israel_1.html",      "note": "" },
-    { "slug": "colombia",    "name": "Colombia",    "folder": "colombia",       "years": [2024, 2025],             "cover": "", "oldPage": "colombia_1.html",    "note": "" },
-    { "slug": "greece",      "name": "Greece",      "folder": "greece",         "years": [2024],                   "cover": "", "oldPage": "greece_1.html",      "note": "" },
-    { "slug": "yellowstone", "name": "Yellowstone", "folder": "YellowStone NP", "years": [2024],                   "cover": "", "oldPage": "yellowstone_1.html", "note": "", "region": "National Park, USA" },
-    { "slug": "honduras",    "name": "Honduras",    "folder": "honduras",       "years": [2023],                   "cover": "", "oldPage": "honduras_1.html",    "note": "" },
-    { "slug": "uk",          "name": "United Kingdom", "folder": "uk",          "years": [2016],                   "cover": "", "oldPage": "uk_1.html",          "note": "" },
-    { "slug": "france",      "name": "France",      "folder": "france",         "years": [2016],                   "cover": "", "oldPage": "france_1.html",      "note": "" },
-    { "slug": "germany",     "name": "Germany",     "folder": "germany",        "years": [2013],                   "cover": "", "oldPage": "germany_1.html",     "note": "" },
-    { "slug": "italy",       "name": "Italy",       "folder": "italy",          "years": [2013],                   "cover": "", "oldPage": "italy_1.html",       "note": "" }
+    {"slug": "spain", "name": "Spain", "folder": "spain", "years": [2026], "cover": "", "oldPage": "spain_2.html", "note": "Taken while vacationing in 2026 with good friends. We traveled from Lisbon, Portugal, to Barcelona, Spain, visiting many places in between."},
+    {"slug": "israel-2025", "name": "Israel", "folder": "israel-2025", "years": [2025], "cover": "", "note": "", "oldPage": "israel_1.html"},
+    {"slug": "israel-2023", "name": "Israel", "folder": "israel-2023", "years": [2023], "cover": "", "note": ""},
+    {"slug": "israel-2022", "name": "Israel", "folder": "israel-2022", "years": [2022], "cover": "", "note": ""},
+    {"slug": "israel-2019", "name": "Israel", "folder": "israel-2019", "years": [2019], "cover": "", "note": "December 30, 2018 to January 5, 2019."},
+    {"slug": "colombia-2025", "name": "Colombia", "folder": "colombia-2025", "years": [2025], "cover": "", "note": "", "oldPage": "colombia_1.html"},
+    {"slug": "colombia-2024", "name": "Colombia", "folder": "colombia-2024", "years": [2024], "cover": "", "note": ""},
+    {"slug": "greece", "name": "Greece", "folder": "greece", "years": [2024], "cover": "", "oldPage": "greece_1.html", "note": ""},
+    {"slug": "yellowstone", "name": "Yellowstone", "folder": "YellowStone NP", "years": [2024], "cover": "", "oldPage": "yellowstone_1.html", "note": "", "region": "National Park, USA"},
+    {"slug": "honduras", "name": "Honduras", "folder": "honduras", "years": [2023], "cover": "", "oldPage": "honduras_1.html", "note": ""},
+    {"slug": "uk", "name": "United Kingdom", "folder": "uk", "years": [2016], "cover": "", "oldPage": "uk_1.html", "note": ""},
+    {"slug": "france", "name": "France", "folder": "france", "years": [2016], "cover": "", "oldPage": "france_1.html", "note": ""},
+    {"slug": "germany", "name": "Germany", "folder": "germany", "years": [2013], "cover": "", "oldPage": "germany_1.html", "note": ""},
+    {"slug": "italy", "name": "Italy", "folder": "italy", "years": [2013], "cover": "", "oldPage": "italy_1.html", "note": ""}
   ]
 }

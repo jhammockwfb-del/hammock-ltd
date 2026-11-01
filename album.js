@@ -8,6 +8,8 @@
   // The preview copy links with #slug because its host drops query strings.
   const placeUrl = slug => (PREVIEW ? `place.html#${slug}` : `place.html?p=${encodeURIComponent(slug)}`);
   const fullSrc = p => (PREVIEW ? p.thumb : p.src);
+  let tripCount = {};
+  const label = pl => (tripCount[pl.name] > 1 ? `${pl.name} ${pl.years.join(', ')}` : pl.name);
 
   async function loadData() {
     const res = await fetch('places.json', { cache: 'no-cache' });
@@ -135,7 +137,7 @@
     const all = everything(data);
     const total = all.length;
     const allYears = data.places.flatMap(p => p.years);
-    $('#count').textContent = `${total.toLocaleString()} photos from ${data.places.length} places, ${Math.min(...allYears)} to ${Math.max(...allYears)}`;
+    $('#count').textContent = `${total.toLocaleString()} photos from ${new Set(data.places.map(p => p.name)).size} places, ${Math.min(...allYears)} to ${Math.max(...allYears)}`;
 
     // Hero: one random photo
     let current;
@@ -198,8 +200,13 @@
     startGame(data, all);
 
     // A–Z
-    $('#az').innerHTML = data.places.slice().sort((a, b) => a.name.localeCompare(b.name)).map(pl =>
-      `<li><a href="${placeUrl(pl.slug)}">${esc(pl.name)}</a><span>${esc(yearsText(pl.years))}</span></li>`).join('');
+    const byName = new Map();
+    data.places.forEach(pl => { if (!byName.has(pl.name)) byName.set(pl.name, []); byName.get(pl.name).push(pl); });
+    $('#az').innerHTML = [...byName.keys()].sort((a, b) => a.localeCompare(b)).map(name => {
+      const trips = byName.get(name).slice().sort((a, b) => a.years[0] - b.years[0]);
+      if (trips.length === 1) return `<li><a href="${placeUrl(trips[0].slug)}">${esc(name)}</a><span>${esc(yearsText(trips[0].years))}</span></li>`;
+      return `<li><span class="az-name">${esc(name)}</span><span class="az-trips">${trips.map(t => `<a href="${placeUrl(t.slug)}">${esc(yearsText(t.years))}</a>`).join(' ')}</span></li>`;
+    }).join('');
   }
 
   // A place visited in several years gets a different photo in each year's row.
@@ -230,8 +237,9 @@
       last = a;
       img.src = a.photo.thumb;
       img.alt = 'Mystery photo';
-      const options = shuffle([a.place, ...shuffle(data.places.filter(p => p !== a.place)).slice(0, 3)]);
-      choices.innerHTML = options.map((p, k) => `<button type="button" class="choice" data-k="${k}">${esc(p.name)}</button>`).join('');
+      const others = [...new Set(data.places.map(p => p.name))].filter(n => n !== a.place.name);
+      const options = shuffle([a.place.name, ...shuffle(others).slice(0, 3)]);
+      choices.innerHTML = options.map((p, k) => `<button type="button" class="choice" data-k="${k}">${esc(p)}</button>`).join('');
       result.innerHTML = '';
       next.hidden = true;
       choices.querySelectorAll('.choice').forEach(b => (b.onclick = () => {
@@ -239,14 +247,14 @@
         tries++;
         choices.querySelectorAll('.choice').forEach((c, k) => {
           c.disabled = true;
-          if (options[k] === a.place) c.classList.add('right');
+          if (options[k] === a.place.name) c.classList.add('right');
         });
-        if (picked === a.place) {
+        if (picked === a.place.name) {
           right++;
           result.innerHTML = `${yes[Math.floor(Math.random() * yes.length)]} ${esc(a.place.name)}, ${esc(yearsText(a.place.years))}.`;
         } else {
           b.classList.add('wrong');
-          result.innerHTML = `Nope, that was ${esc(a.place.name)}. <a href="${placeUrl(a.place.slug)}">See the ${esc(a.place.name)} photos</a>`;
+          result.innerHTML = `Nope, that was ${esc(a.place.name)}, ${esc(yearsText(a.place.years))}. <a href="${placeUrl(a.place.slug)}">See those photos</a>`;
         }
         score.textContent = `Score: ${right} of ${tries}`;
         next.hidden = false;
@@ -267,7 +275,7 @@
       return;
     }
     const pl = data.places[idx];
-    document.title = `${pl.name} | Hammock photos`;
+    document.title = `${label(pl)} | Hammock photos`;
     const items = pl.photos.map((p, k) => itemFor(pl, p, k + 1));
     const prev = data.places[(idx - 1 + data.places.length) % data.places.length];
     const next = data.places[(idx + 1) % data.places.length];
@@ -296,8 +304,8 @@
       </div>
       ${vids}
       <nav class="neighbors" aria-label="Other places">
-        <a href="${placeUrl(prev.slug)}"><small>Previous</small><strong>${esc(prev.name)}</strong></a>
-        <a href="${placeUrl(next.slug)}" style="text-align:right"><small>Next</small><strong>${esc(next.name)}</strong></a>
+        <a href="${placeUrl(prev.slug)}"><small>Previous</small><strong>${esc(label(prev))}</strong></a>
+        <a href="${placeUrl(next.slug)}" style="text-align:right"><small>Next</small><strong>${esc(label(next))}</strong></a>
       </nav>`;
     $('#play').onclick = () => viewer.open(items, 0, true);
     main.querySelectorAll('.grid button').forEach(b => (b.onclick = () => viewer.open(items, +b.dataset.i)));
@@ -306,7 +314,13 @@
   window.Album = {
     start(page) {
       loadData()
-        .then(data => (page === 'home' ? renderHome(data) : renderPlace(data)))
+        .then(data => {
+          tripCount = {};
+          data.places.forEach(p => (tripCount[p.name] = (tripCount[p.name] || 0) + 1));
+          if (page === 'home') return renderHome(data);
+          renderPlace(data);
+          window.addEventListener('hashchange', () => { renderPlace(data); scrollTo(0, 0); });
+        })
         .catch(err => {
           const box = $('#place') || $('#years');
           if (box) box.innerHTML = `<p class="empty">The photo list didn't load (${esc(err.message)}). Refresh the page to try again.</p>`;

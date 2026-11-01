@@ -106,6 +106,9 @@ a:focus-visible, button:focus-visible { outline: 3px solid var(--amber); outline
 .az li a { text-decoration: none; }
 .az li a:hover { color: var(--amber); }
 .az li span { color: var(--muted); font-size: .92rem; }
+.az li .az-name { color: var(--paper); font-size: inherit; }
+.az-trips a { color: var(--muted); margin-left: .6rem; }
+.az-trips a:hover { color: var(--amber); }
 
 .foot { margin-top: 80px; border-top: 1px solid var(--rule); padding: 28px var(--gutter) 48px; max-width: 1240px; margin-left: auto; margin-right: auto; color: var(--muted); display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; font-size: .95rem; }
 .foot a { color: var(--paper); }
