@@ -1,0 +1,43 @@
+name: Build site data
+
+# Runs whenever photos or place settings change. Makes preview images in
+# thumbs/ and rebuilds places.json, then commits them back.
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'photos/**'
+      - 'places.config.json'
+      - '.github/scripts/build-site-data.js'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: build-site-data
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+      - run: npm ci
+      - run: node .github/scripts/build-site-data.js
+      - name: Commit updated previews and places.json
+        run: |
+          git config --local user.email "github-actions@github.com"
+          git config --local user.name "github-actions"
+          git add places.json thumbs/
+          if git diff --cached --quiet; then
+            echo "Nothing changed"
+          else
+            git commit -m "Update photo previews and places.json"
+            git pull --rebase origin main
+            git push
+          fi
